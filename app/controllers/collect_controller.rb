@@ -1,7 +1,5 @@
 require_relative '../controller'
 
-require 'json'
-
 class CollectController < Controller
   def get
     @callback_token = params['callback_token']

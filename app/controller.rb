@@ -1,3 +1,5 @@
+require 'json'
+
 class Controller
   attr_reader :req, :res, :logger
 
