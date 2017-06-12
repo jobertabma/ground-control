@@ -2,6 +2,7 @@ require 'webrick'
 require 'webrick/https'
 require 'openssl'
 require 'erb'
+require 'logger'
 
 require_relative 'controllers/redirect_controller'
 require_relative 'controllers/ping_pong_controller'
@@ -29,6 +30,11 @@ trap 'INT' do
   server.shutdown
 end
 
+logger = Logger.new \
+  File.open('logs/access_log', File::WRONLY | File::APPEND),
+  128,
+  1_024_000
+
 [
   RedirectController,
   PingPongController,
@@ -41,7 +47,7 @@ end
     methods = %w(get post)
 
     if methods.include?(req.request_method.downcase)
-      klass.new(req, res).send(req.request_method.downcase)
+      klass.new(req, res, logger).send(req.request_method.downcase)
     else
       res.status = 501
     end

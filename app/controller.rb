@@ -1,9 +1,10 @@
 class Controller
-  attr_reader :req, :res
+  attr_reader :req, :res, :logger
 
-  def initialize(req, res)
+  def initialize(req, res, logger)
     @req = req
     @res = res
+    @logger = logger
   end
 
   def params
