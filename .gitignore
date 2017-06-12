@@ -2,3 +2,4 @@ config.json
 logs/access_log
 .DS_Store
 tmp/
+ssl/8443.pem
