@@ -51,7 +51,7 @@ function validate_secret() {
 function update_access_log() {
   $log = array(
     'time' => time(),
-    'ip_address' => '127.0.0.1',
+    'ip_address' => $_SERVER['REMOTE_ADDR'],
     'request_method' => $_SERVER['REQUEST_METHOD'],
     'variables' => array(
       'GET' => $_GET,
