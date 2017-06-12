@@ -20,4 +20,17 @@ class Controller
     # 501 Not Implemented
     res.status = 501
   end
+
+  def log_request(message)
+    log = {
+      raw: req.raw_header,
+      body: req.body,
+      cookies: req.cookies,
+      query: req.query,
+      request_line: req.request_line,
+      ip_address: req.remote_ip,
+    }
+
+    logger.info(message) { log.to_json }
+  end
 end
