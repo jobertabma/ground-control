@@ -1,0 +1,12 @@
+{
+  "secret": "mysecret",
+  "callback_tokens": {
+    "example": {
+      "parameter": "test",
+      "page": "/invite.php",
+      "host": "example.com",
+      "scheme": "https",
+      "port": 443,
+    }
+  }
+}
