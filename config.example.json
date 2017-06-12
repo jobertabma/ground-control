@@ -6,7 +6,7 @@
       "page": "/invite.php",
       "host": "example.com",
       "scheme": "https",
-      "port": 443,
+      "port": 443
     }
   }
 }
