@@ -7,6 +7,7 @@ define('PARAMETER_HEADERS_KEY', 'key');
 define('PARAMETER_HEADERS_VALUE', 'value');
 define('PARAMETER_EXTRA', 'extra');
 define('PARAMETER_BODY', 'body');
+define('PARAMETER_CALLBACK_TOKEN', 'callback_token');
 
 define('CONFIG_FILE', '../config.json');
 define('CONFIG_KEY_SECRET', 'secret');
