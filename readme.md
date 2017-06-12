@@ -12,13 +12,13 @@ Clone this repository and point the root of your web server to the `public` dire
 ### Redirects
 The `redirect.php` script is used to redirect a request to another server or endpoint. This may assist you when you need an external server to redirect back to an internal system. See below for examples.
 
-```lang=bash
-curl -vv http://server/redirect.php?secret=mysecret&url=http://169.254.169.254/latest/meta-data/
+```
+curl -vv "http://server/redirect.php?secret=mysecret&url=http://169.254.169.254/latest/meta-data/"
 ```
 
 ### Ping
 Sometimes, you simply need a page that responds with a certain body and headers. The `ping.php` script does exactly that. Here's a few examples.
 
-```lang=bash
-curl -vv http://server/ping.php?secret=mysecret&body=%3ch1%3eHello%3c/%3e
+```
+curl -vv "http://server/ping.php?secret=mysecret&body=%3ch1%3eHello%3c/h1%3e"
 ```
