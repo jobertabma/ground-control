@@ -6,34 +6,21 @@ require_relative 'controllers/redirect_controller'
 require_relative 'controllers/ping_pong_controller'
 require_relative 'controllers/file_controller'
 
-def get_argument(key)
-  return unless ARGV.index(key)
+require_relative 'helpers/console_helper'
+require_relative 'helpers/string_helper'
 
-  ARGV[ARGV.index(key) + 1]
-end
-
-# simplified version of Rails' String#underscore method
-def underscore(camel_cased_word)
-  word = camel_cased_word.to_s.dup
-  word.gsub!(/([A-Z\d]+)([A-Z][a-z])/,'\1_\2')
-  word.gsub!(/([a-z\d])([A-Z])/,'\1_\2')
-  word.tr!("-", "_")
-  word.downcase!
-  word
-end
-
-if get_argument('-cert')
-  cert = OpenSSL::X509::Certificate.new File.read get_argument('-cert')
-  pkey = OpenSSL::PKey::RSA.new File.read get_argument('-cert')
+if ConsoleHelper.get_argument('-cert')
+  cert = OpenSSL::X509::Certificate.new File.read ConsoleHelper.get_argument('-cert')
+  pkey = OpenSSL::PKey::RSA.new File.read ConsoleHelper.get_argument('-cert')
 
   server = WEBrick::HTTPServer.new \
-    Port: get_argument('-p'),
+    Port: ConsoleHelper.get_argument('-p'),
     SSLEnable: true,
     SSLCertificate: cert,
     SSLPrivateKey: pkey
 else
   server = WEBrick::HTTPServer.new \
-    Port: get_argument('-p')
+    Port: ConsoleHelper.get_argument('-p')
 end
 
 trap 'INT' do
@@ -45,7 +32,7 @@ end
   PingPongController,
   FileController,
 ].each do |klass|
-  endpoint = format('/%s', underscore(klass).gsub(/_controller/, ''))
+  endpoint = format('/%s', klass.to_s.underscore.gsub(/_controller/, ''))
 
   server.mount_proc endpoint do |req, res|
     methods = %w(get post)
