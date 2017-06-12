@@ -35,6 +35,8 @@ logger = Logger.new \
   128,
   1_024_000
 
+CONFIG = JSON.parse(IO.read('config.json'))
+
 [
   RedirectController,
   PingPongController,

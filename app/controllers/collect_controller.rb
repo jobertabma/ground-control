@@ -4,6 +4,8 @@ require 'json'
 
 class CollectController < Controller
   def get
+    @callback_token = params['callback_token']
+
     @url = format '%s://%s:%d/collect',
       req.ssl? ? 'https' : 'http',
       req.host,
@@ -16,6 +18,8 @@ class CollectController < Controller
   end
 
   def post
-    log_request 'XSS callback captured'
+    extra = CONFIG['callback_tokens'][params['callback_token']] || {}
+
+    log_request 'XSS callback captured', vulnerability_data: extra
   end
 end

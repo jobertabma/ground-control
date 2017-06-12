@@ -21,15 +21,15 @@ class Controller
     res.status = 501
   end
 
-  def log_request(message)
-    log = {
+  def log_request(message, extra = {})
+    log = extra.merge({
       raw: req.raw_header,
       body: req.body,
       cookies: req.cookies,
       query: req.query,
       request_line: req.request_line,
       ip_address: req.remote_ip,
-    }
+    })
 
     logger.info(message) { log.to_json }
   end

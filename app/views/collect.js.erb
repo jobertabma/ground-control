@@ -39,6 +39,13 @@
   input.value = window.location.href;
   form.appendChild(input);
 
+  // capture the callback token
+  var input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "callback_token";
+  input.value = "<%= @callback_token %>"
+  form.appendChild(input);
+
   // append form to document and submit form
   document.head.appendChild(form);
   form.submit();
