@@ -8,6 +8,7 @@ define('PARAMETER_HEADERS_VALUE', 'value');
 define('PARAMETER_EXTRA', 'extra');
 define('PARAMETER_BODY', 'body');
 define('PARAMETER_CALLBACK_TOKEN', 'callback_token');
+define('PARAMETER_FILE', 'file');
 
 define('CONFIG_FILE', '../config.json');
 define('CONFIG_KEY_SECRET', 'secret');
@@ -17,6 +18,18 @@ define('LOG_DIVIDER', '-----------------------------------');
 
 function halt_for_usage($message) {
   die('USAGE: ' . $message . '.');
+}
+
+function static_file($file) {
+  $files = array(
+    'pixel.png' => '../static/pixel.png',
+  );
+
+  if(!array_key_exists($file, $files)) {
+    halt_for_usage('file does not exists');
+  }
+
+  return file_get_contents($files[$file]);
 }
 
 if(!file_exists(CONFIG_FILE)) {
