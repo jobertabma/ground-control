@@ -1,10 +1,12 @@
 require 'webrick'
 require 'webrick/https'
 require 'openssl'
+require 'erb'
 
 require_relative 'controllers/redirect_controller'
 require_relative 'controllers/ping_pong_controller'
 require_relative 'controllers/file_controller'
+require_relative 'controllers/collect_controller'
 
 require_relative 'helpers/console_helper'
 require_relative 'helpers/string_helper'
@@ -31,6 +33,7 @@ end
   RedirectController,
   PingPongController,
   FileController,
+  CollectController,
 ].each do |klass|
   endpoint = format('/%s', klass.to_s.underscore.gsub(/_controller/, ''))
 
