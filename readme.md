@@ -2,7 +2,7 @@
 This is a collection of most of my scripts that I use to debug Server Side Request Forgery (SSRF), blind XSS, and insecure XXE processing vulnerabilities. This is still a work in progress, as I'm still collecting all the scripts that I have lingering around. Before using these scripts, I used to rewrite these scripts most of the time or set up listeners with `netcat`. That wasn't scalable, so I started collecting the scripts in a repository, which can be closed easily every time it's needed it on a server.
 
 ## Requirements
-Running this script requires Ruby 2.3, a valid SSL certificate for a domain you own, and a web server that allows to open port `80`, `443`, `8080`, and `8443`. The use of each port will be explained in this document.
+Running this script requires Ruby 2.3, a valid SSL certificate for a domain you own, and a web server that allows to open port `80`, `443`, `8080`, and `8443`. Port `80` and `443` are used to serve simple web traffic. Port `8080` is an alternative HTTP port that can be useful when traffic on port `80` is blocked. Port `8443` is an alternative port for HTTPS traffic, with the difference that it serves a self-signed SSL certificate. I use this port to determine whether the server does SSL certificate validation. It does not warrant a security report by itself, but is often useful to mention when you're filing the SSRF vulnerability.
 
 ## Setting up
 Clone this repository and install the required components by running `install.sh`. After that, run `start.sh` to start to listen on all ports. For now, `root` privileges are required because it listens on port `80` and `443`. A future version might solve this problem by switching to a different user context after startup.
