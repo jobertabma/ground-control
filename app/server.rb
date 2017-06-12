@@ -6,7 +6,6 @@ require 'logger'
 
 require_relative 'controllers/redirect_controller'
 require_relative 'controllers/ping_pong_controller'
-require_relative 'controllers/file_controller'
 require_relative 'controllers/collect_controller'
 require_relative 'controllers/pixel_controller'
 
@@ -41,7 +40,6 @@ CONFIG = JSON.parse(IO.read('config.json'))
 [
   RedirectController,
   PingPongController,
-  FileController,
   CollectController,
   PixelController,
 ].each do |klass|
