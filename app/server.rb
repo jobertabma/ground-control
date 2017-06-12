@@ -12,17 +12,17 @@ require_relative 'controllers/collect_controller'
 require_relative 'helpers/console_helper'
 require_relative 'helpers/string_helper'
 
-if ConsoleHelper.get_argument('-cert')
+server = if ConsoleHelper.get_argument('-cert')
   cert = OpenSSL::X509::Certificate.new File.read ConsoleHelper.get_argument('-cert')
   pkey = OpenSSL::PKey::RSA.new File.read ConsoleHelper.get_argument('-cert')
 
-  server = WEBrick::HTTPServer.new \
+  WEBrick::HTTPServer.new \
     Port: ConsoleHelper.get_argument('-p'),
     SSLEnable: true,
     SSLCertificate: cert,
     SSLPrivateKey: pkey
 else
-  server = WEBrick::HTTPServer.new \
+  WEBrick::HTTPServer.new \
     Port: ConsoleHelper.get_argument('-p')
 end
 
