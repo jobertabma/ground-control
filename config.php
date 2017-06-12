@@ -2,6 +2,14 @@
 
 define('SECRET', 'mysecret');
 
+define('PARAMETER_SECRET', 'secret');
+define('PARAMETER_URL', 'url');
+define('PARAMETER_HEADERS', 'headers');
+define('PARAMETER_HEADERS_KEY', 'key');
+define('PARAMETER_HEADERS_VALUE', 'value');
+define('PARAMETER_EXTRA', 'extra');
+define('PARAMETER_BODY', 'body');
+
 function halt_for_usage($message) {
   die('USAGE: ' . $message . '.');
 }
@@ -19,7 +27,7 @@ function fetch_key($array, $key, $default = '') {
 }
 
 function validate_secret() {
-  $secret = fetch_key($_REQUEST, 'secret');
+  $secret = fetch_key($_REQUEST, PARAMETER_SECRET);
 
   if(!hash_equals(SECRET, $secret)) {
     halt_for_usage('append secret variable in order for the script to work');
@@ -27,7 +35,7 @@ function validate_secret() {
 }
 
 function extra_parameters() {
-  $extra = fetch_key($_REQUEST, 'extra', []);
+  $extra = fetch_key($_REQUEST, PARAMETER_EXTRA, []);
 
   return is_array($extra) ? $extra : [];
 }
@@ -35,15 +43,15 @@ function extra_parameters() {
 function collect_additional_headers() {
   $extra = extra_parameters();
 
-  $headers = fetch_key($extra, 'headers', []);
+  $headers = fetch_key($extra, PARAMETER_HEADERS, []);
 
   if(!is_array($headers)) {
     halt_for_usage('extra[headers] expects an array');
   }
 
   foreach($headers as $header) {
-    $header_key = fetch_key($header, 'key');
-    $header_value = fetch_key($header, 'value');
+    $header_key = fetch_key($header, PARAMETER_HEADERS_KEY);
+    $header_value = fetch_key($header, PARAMETER_HEADERS_VALUE);
 
     if(strlen($header_key) > 0) {
       header($header_key . ': ' . $header_value);
