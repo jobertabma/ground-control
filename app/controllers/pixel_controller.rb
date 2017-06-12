@@ -1,7 +1,5 @@
 require_relative '../controller'
 
-require 'json'
-
 class PixelController < Controller
   def get
     extra = CONFIG['callback_tokens'][params['callback_token']] || {}
