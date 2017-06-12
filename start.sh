@@ -1,18 +1,18 @@
 #!/bin/bash
 
-ruby2.3 app/server.rb -p 80 &
+ruby app/server.rb -p 80 &
 PORT_80_PID=$!
 
 if [ -f ssl/443.pem ]
 then
-  ruby2.3 app/server.rb -p 443 -cert ssl/443.pem &
+  ruby app/server.rb -p 443 -cert ssl/443.pem &
   PORT_443_PID=$!
 fi
 
-ruby2.3 app/server.rb -p 8080 &
+ruby app/server.rb -p 8080 &
 PORT_8080_PID=$!
 
-ruby2.3 app/server.rb -p 8443 -cert ssl/8443.pem &
+ruby app/server.rb -p 8443 -cert ssl/8443.pem &
 PORT_8443_PID=$!
 
 read -p "Press any key to quit..." -n1 -s
