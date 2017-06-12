@@ -122,5 +122,5 @@ function domain_with_scheme() {
   $hostname = $config['hostname'];
   $port = $_SERVER['SERVER_PORT'];
 
-  return $scheme . '://' . $hostname . ':' . $port . '/';
+  return $scheme . '://' . $hostname . ':' . $port;
 }
