@@ -2,6 +2,10 @@
 
 define('SECRET', 'mysecret');
 
+function halt_for_usage($message) {
+  die('USAGE: ' . $message . '.');
+}
+
 function validate_secret() {
   $secret = array_key_exists('secret', $_REQUEST) ? $_REQUEST['secret'] : '';
 
