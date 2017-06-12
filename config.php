@@ -8,7 +8,8 @@ define('PARAMETER_HEADERS_VALUE', 'value');
 define('PARAMETER_EXTRA', 'extra');
 define('PARAMETER_BODY', 'body');
 
-define('SECRET_FILE', '../secret');
+define('CONFIG_FILE', '../config.json');
+define('CONFIG_KEY_SECRET', 'secret');
 
 define('FILE_ACCESS_LOG', '../logs/access_log');
 define('LOG_DIVIDER', '-----------------------------------');
@@ -17,11 +18,9 @@ function halt_for_usage($message) {
   die('USAGE: ' . $message . '.');
 }
 
-if(!file_exists(SECRET_FILE)) {
+if(!file_exists(CONFIG_FILE)) {
   halt_for_usage('file with secret is missing');
 }
-
-define('SECRET', trim(file_get_contents(SECRET_FILE)));
 
 function fetch_key($array, $key, $default = '') {
   if(!is_array($array)) {
@@ -34,6 +33,12 @@ function fetch_key($array, $key, $default = '') {
 
   return $array[$key];
 }
+
+function config() {
+  return json_decode(file_get_contents(CONFIG_FILE), true);
+}
+
+define('SECRET', fetch_key(config(), CONFIG_KEY_SECRET));
 
 function validate_secret() {
   $secret = fetch_key($_REQUEST, PARAMETER_SECRET);
