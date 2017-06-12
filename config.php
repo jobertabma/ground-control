@@ -1,7 +1,5 @@
 <?php
 
-define('SECRET', 'mysecret');
-
 define('PARAMETER_SECRET', 'secret');
 define('PARAMETER_URL', 'url');
 define('PARAMETER_HEADERS', 'headers');
@@ -10,9 +8,17 @@ define('PARAMETER_HEADERS_VALUE', 'value');
 define('PARAMETER_EXTRA', 'extra');
 define('PARAMETER_BODY', 'body');
 
+DEFINE('SECRET_FILE', '../secret');
+
 function halt_for_usage($message) {
   die('USAGE: ' . $message . '.');
 }
+
+if(!file_exists(SECRET_FILE)) {
+  halt_for_usage('file with secret is missing');
+}
+
+define('SECRET', trim(file_get_contents(SECRET_FILE)));
 
 function fetch_key($array, $key, $default = '') {
   if(!is_array($array)) {
