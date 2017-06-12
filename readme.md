@@ -5,7 +5,7 @@ This is a collection of most of my scripts that I use to debug Server Side Reque
 Running this script requires Ruby 2.3, a valid SSL certificate for a domain you own, and a web server that allows to open port `80`, `443`, `8080`, and `8443`. The use of each port will be explained in this document.
 
 ## Setting up
-Clone this repository and install the required components by running `install.sh`. After that, run `start.sh` to start to listen on all ports.
+Clone this repository and install the required components by running `install.sh`. After that, run `start.sh` to start to listen on all ports. For now, `root` privileges are required because it listens on port `80` and `443`. A future version might solve this problem by switching to a different user context after startup.
 
 ## Functions
 
