@@ -1,2 +1,3 @@
 config.json
 logs/access_log
+.DS_Store
