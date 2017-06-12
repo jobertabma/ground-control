@@ -12,4 +12,6 @@ if(!is_string($body) || strlen($body) == 0) {
 
 collect_additional_headers();
 
+update_access_log();
+
 echo $body;

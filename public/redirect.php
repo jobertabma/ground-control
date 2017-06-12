@@ -12,4 +12,6 @@ if(!is_string($url) || strlen($url) == 0) {
 
 collect_additional_headers();
 
+update_access_log();
+
 header('Location: ' . $url);

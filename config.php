@@ -8,7 +8,10 @@ define('PARAMETER_HEADERS_VALUE', 'value');
 define('PARAMETER_EXTRA', 'extra');
 define('PARAMETER_BODY', 'body');
 
-DEFINE('SECRET_FILE', '../secret');
+define('SECRET_FILE', '../secret');
+
+define('FILE_ACCESS_LOG', '../logs/access_log');
+define('LOG_DIVIDER', '-----------------------------------');
 
 function halt_for_usage($message) {
   die('USAGE: ' . $message . '.');
@@ -38,6 +41,25 @@ function validate_secret() {
   if(!hash_equals(SECRET, $secret)) {
     halt_for_usage('append secret variable in order for the script to work');
   }
+}
+
+function update_access_log() {
+  $log = array(
+    'time' => time(),
+    'ip_address' => '127.0.0.1',
+    'request_method' => $_SERVER['REQUEST_METHOD'],
+    'variables' => array(
+      'GET' => $_GET,
+      'POST' => $_POST,
+      'FILES' => $_FILES,
+      'SERVER' => $_SERVER,
+      'COOKIES' => $_COOKIE,
+    )
+  );
+
+  $log = json_encode($log) . "\r\n" . LOG_DIVIDER . "\r\n";
+
+  file_put_contents(FILE_ACCESS_LOG, $log, FILE_APPEND | LOCK_EX);
 }
 
 function extra_parameters() {
