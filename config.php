@@ -105,3 +105,22 @@ function collect_additional_headers() {
     }
   }
 }
+
+function is_ssl_enabled() {
+  return !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off';
+}
+
+function domain_with_scheme() {
+  $config = config();
+
+  if (is_ssl_enabled()) {
+    $scheme = 'https';
+  } else {
+    $scheme = 'http';
+  }
+
+  $hostname = $config['hostname'];
+  $port = $_SERVER['SERVER_PORT'];
+
+  return $scheme . '://' . $hostname . ':' . $port . '/';
+}

@@ -16,7 +16,12 @@ update_access_log();
 
 header('Content-Type: application/javascript');
 ?>
-
 (function() {
-  alert('XSS');
+  var img = document.createElement("img");
+
+  img.src = "<?= domain_with_scheme(); ?>/file.php?" +
+    "secret=<?= SECRET; ?>&file=pixel.png&extra[headers][0][key]=" +
+    "Content-Type&extra[headers][0][value]=image/png";
+
+  document.body.appendChild(img);
 })();

@@ -1,5 +1,6 @@
 {
   "secret": "mysecret",
+  "hostname": "127.0.0.1",
   "callback_tokens": {
     "example": {
       "parameter": "test",
