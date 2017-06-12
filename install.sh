@@ -5,7 +5,7 @@ apt-add-repository ppa:brightbox/ruby-ng
 apt-get update
 
 # install correct Ruby version
-apt-get install ruby2.3
+apt-get install ruby2.3 ruby2.3-dev
 
 # generate 8443 SSL certificate with CSR
 
